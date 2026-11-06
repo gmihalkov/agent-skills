@@ -1,0 +1,15 @@
+language js
+
+JsAwaitExpression() as $await where {
+  $await <: not within or {
+    JsInitializerClause(expression = $await),
+    JsAssignmentExpression(right = $await),
+    JsExpressionStatement(expression = $await),
+    JsReturnStatement(argument = $await),
+    JsArrowFunctionExpression(body = $await)
+  },
+  register_diagnostic(
+    span = $await,
+    message = "Use `await` only as a whole initializer, assignment RHS, statement, return value or concise arrow body."
+  )
+}

@@ -1,0 +1,20 @@
+{
+  "name": "agent-skills",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "docs-format": "bun scripts/docs-format.ts",
+    "docs-lint": "bun scripts/docs-lint.ts",
+    "code-format": "biome check --write --linter-enabled=false --no-errors-on-unmatched",
+    "code-lint": "! git grep -n --untracked 'biome-[i]gnore' -- '*.ts' '*.json' '*.jsonc' && biome check --error-on-warnings --no-errors-on-unmatched",
+    "code-typecheck": "tsc --noEmit",
+    "code-test": "bun test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.5",
+    "@types/bun": "^1.4.4",
+    "markdownlint-cli2": "^0.24.0",
+    "prettier": "^3.9.10",
+    "typescript": "^7"
+  }
+}

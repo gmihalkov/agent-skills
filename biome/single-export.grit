@@ -1,0 +1,10 @@
+language js
+
+or {
+  JsExport() as $extra where { $extra <: after JsExport() },
+  JsExportNamedClause(specifiers = [$_, $_, ...]) as $extra,
+  JsExportNamedFromClause(specifiers = [$_, $_, ...]) as $extra,
+  JsVariableDeclaration(declarators = [$_, $_, ...]) as $extra where { $extra <: within JsExport() }
+} where {
+  register_diagnostic(span = $extra, message = "A file may have at most one export.")
+}

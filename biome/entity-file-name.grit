@@ -1,0 +1,23 @@
+language js
+
+// Anchored on the first import, or on the export of a file without imports: Biome plugins do not match the module root node.
+// shortcut: a file with no import or export is not checked; anchor on another node if one appears.
+or { JsImport(), JsExport() } as $module where {
+  not $module <: after or { JsImport(), JsExport() },
+  or { $module <: JsImport(), $program <: not contains JsImport() },
+  or {
+    and {
+      $filename <: r".*/scripts/common/[^/]+",
+      register_diagnostic(span = $module, message = "A file in scripts/common/ must be inside an entity folder.")
+    },
+    and {
+      $filename <: r".*/scripts/common/[^/]+/[^/]+/.+",
+      register_diagnostic(span = $module, message = "Entity folders in scripts/common/ must be flat.")
+    },
+    and {
+      $filename <: r".*/scripts/common/([^/]+)/([^/]+)"($entity, $base),
+      not $base <: includes $entity,
+      register_diagnostic(span = $module, message = "A file name in scripts/common/<entity>/ must contain the entity name.")
+    }
+  }
+}

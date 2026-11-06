@@ -1,0 +1,19 @@
+language js
+
+JsCallExpression(
+  callee = JsStaticMemberExpression(
+    member = $third,
+    object = JsCallExpression(
+      callee = JsStaticMemberExpression(
+        object = JsCallExpression(callee = JsStaticMemberExpression(object = $root))
+      )
+    )
+  )
+) where {
+  // Report each chain once: only where the third call counts from the chain's start.
+  $root <: not JsCallExpression(callee = JsStaticMemberExpression()),
+  register_diagnostic(
+    span = $third,
+    message = "Chain of 3+ method calls: store intermediate results in named variables."
+  )
+}

@@ -1,0 +1,9 @@
+language js
+
+JsCallExpression(callee = JsStaticMemberExpression(member = $method)) as $call where {
+  $method <: or { `reduce`, `reduceRight` },
+  register_diagnostic(
+    span = $call,
+    message = "Avoid reduce(): use a for...of loop with a named accumulator."
+  )
+}

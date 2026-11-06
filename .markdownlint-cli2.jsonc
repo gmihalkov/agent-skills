@@ -1,0 +1,9 @@
+{
+  "config": {
+    // Prettier keeps every paragraph on one line (proseWrap: never), so a line-length limit cannot hold.
+    "MD013": false
+  },
+  "gitignore": true,
+  // Symlinks: their targets are linted under their own paths.
+  "ignores": [".serena/**", ".superpowers/**", ".claude/**", "CLAUDE.md"]
+}

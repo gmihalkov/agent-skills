@@ -1,0 +1,12 @@
+language js
+
+or {
+  JsCaseClause(consequent = $body),
+  JsDefaultClause(consequent = $body)
+} as $clause where {
+  $body <: not or { [], [JsBlockStatement()] },
+  register_diagnostic(
+    span = $clause,
+    message = "A case with statements must have exactly one block `{ ... }` as its body."
+  )
+}
